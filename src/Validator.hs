@@ -3,7 +3,7 @@
 module Validator (validate, Validator(Val, Result), ValidationResult(..)) where
 
 import           Control.Exception (throwIO)
-import           Control.Monad.Catch (SomeException, try, MonadCatch)
+import           Control.Monad.Catch (MonadCatch, SomeException, try)
 
 data Validator m e = Val (m Bool, e)
                    | Chain (Validator m e) (Validator m e)
@@ -39,17 +39,3 @@ validate v = do
       case b of
         Result (Fail e) -> pure $ Result $ Fail e
         Result Success  -> reduce comp2
-
-data TestException = Except1
-                   | Except2
-                   | Except3
-  deriving (Show)
-
-ioTrue :: (IO Bool, TestException)
-ioTrue = (print "1" >> pure True, Except1)
-
-ioFalse :: (IO Bool, TestException)
-ioFalse = (print "2" >> pure False, Except2)
-
-throws :: (IO Bool, TestException)
-throws = (throwIO $ userError "test", Except3)

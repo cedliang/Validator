@@ -23,7 +23,7 @@ validate :: MonadCatch m => Validator m e -> m (ValidationResult e)
 validate v = do
   r <- reduce v
   case r of
-    Result result -> pure $ result
+    Result result -> pure result
     comp          -> validate comp
   where
     reduce :: forall m e. MonadCatch m => Validator m e -> m (Validator m e)

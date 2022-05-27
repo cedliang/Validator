@@ -2,3 +2,4 @@
 *.lock
 *.cabal
 *~
+.DS_Store

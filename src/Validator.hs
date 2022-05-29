@@ -1,7 +1,3 @@
-{-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE ScopedTypeVariables #-}
-
 -------------------------------------------------------------------------------------
 -- |
 -- Copyright   : (c) Cedric Liang 2022

@@ -1,7 +1,3 @@
-{-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE ScopedTypeVariables #-}
-
 module MValidator (MValidator(MVal, MGroup)) where
 
 import           Control.Monad.Catch (MonadCatch, SomeException, try)

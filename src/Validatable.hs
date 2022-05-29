@@ -1,5 +1,3 @@
-{-# LANGUAGE MultiParamTypeClasses #-}
-
 module Validatable (Result(..), Validatable, validate, vall, veach) where
 
 -- | Result of validation.

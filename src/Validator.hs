@@ -1,41 +1,36 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module Validator (validate, Validator(Val, Result), ValidationResult(..)) where
+module Validator (validate, Validator(Val), Result(..), vall) where
 
-import           Control.Exception (throwIO)
 import           Control.Monad.Catch (MonadCatch, SomeException, try)
 
-data Validator m e = Val (m Bool, e)
-                   | Chain (Validator m e) (Validator m e)
-                   | Result (ValidationResult e)
+data Validator m e = Val (m Bool) e
+                   | Chain [Validator m e]
 
-data ValidationResult e = Fail e
-                        | Success
+data Result e = Fail e
+              | Success
   deriving (Show)
 
 instance Semigroup (Validator m e) where
-  (<>) = Chain
+  (<>) v1 v2 = Chain [v1, v2]
 
 instance Monoid (Validator m e) where
-  mempty = Result Success
+  mempty = Chain []
 
-validate :: MonadCatch m => Validator m e -> m (ValidationResult e)
-validate v = do
-  r <- reduce v
+vall :: MonadCatch m => e -> [m Bool] -> Validator m e
+vall e conds = Chain $ map (`Val` e) conds
+
+-- checkGroup :: (Monoid e, MonadCatch m) => e -> Validator m e -> m (Result e)
+validate :: forall m e. MonadCatch m => Validator m e -> m (Result e)
+validate (Val computation e) = do
+  r <- try computation :: m (Either SomeException Bool)
   case r of
-    Result result -> pure result
-    comp          -> validate comp
-  where
-    reduce :: forall m e. MonadCatch m => Validator m e -> m (Validator m e)
-    reduce r@(Result _) = pure r
-    reduce (Val (computation, e)) = do
-      r <- try computation :: m (Either SomeException Bool)
-      case r of
-        Left _      -> pure $ Result $ Fail e
-        Right False -> pure $ Result $ Fail e
-        Right _     -> pure $ Result Success
-    reduce (Chain comp1 comp2) = do
-      b <- reduce comp1
-      case b of
-        Result (Fail e) -> pure $ Result $ Fail e
-        Result Success  -> reduce comp2
+    Left _      -> pure $ Fail e
+    Right False -> pure $ Fail e
+    Right _     -> pure Success
+validate (Chain []) = pure Success
+validate (Chain (c:cs)) = do
+  b <- validate c
+  case b of
+    Success -> validate $ Chain cs
+    f       -> pure f

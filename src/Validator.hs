@@ -20,9 +20,8 @@ module Validator
     , veach) where
 
 import           Control.Monad.Catch (MonadCatch, SomeException, try)
-import           MValidator          (MValidator (MGroup, MVal))
-import           Validatable         (Result (..), Validatable, validate, vall,
-                                      veach)
+import           MValidator (MValidator(MGroup, MVal))
+import           Validatable (Result(..), Validatable, validate, vall, veach)
 
 -- | Basic sequential validator consisting of monadic computations that return Boolean.
 --   Validators are monoids and can be composed.
@@ -44,7 +43,9 @@ instance Monoid (Validator m e) where
 instance (Monad m) => Validatable Validator m e where
   validate (Val computation e) = do
     r <- computation
-    (if r then pure Success else pure $ Fail e)
+    (if r
+     then pure Success
+     else pure $ Fail e)
   validate (Chain []) = pure Success
   validate (Chain (c:cs)) = do
     b <- validate c

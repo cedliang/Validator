@@ -1,4 +1,4 @@
-module MValidator (MValidator (MVal, MGroup)) where
+module MValidator (MValidator(MVal, MGroup)) where
 
 import           Control.Monad.Catch (MonadCatch, SomeException, try)
 import           Validatable
@@ -8,10 +8,9 @@ import           Validatable
 --
 --   Allows for the construction of nested validation stacks with accumulation of the monoid value
 --   in the event of failure.
-data MValidator m e
-  = MVal (m Bool) e
-  | MChain [MValidator m e]
-  | MGroup e (MValidator m e)
+data MValidator m e = MVal (m Bool) e
+                    | MChain [MValidator m e]
+                    | MGroup e (MValidator m e)
 
 instance Semigroup (MValidator m e) where
   (<>) v1 v2 = MChain [v1, v2]
@@ -22,9 +21,11 @@ instance Monoid (MValidator m e) where
 instance (Monad m, Monoid e) => Validatable MValidator m e where
   validate (MVal computation e) = do
     r <- computation
-    (if r then pure Success else pure $ Fail e)
+    (if r
+     then pure Success
+     else pure $ Fail e)
   validate (MChain []) = pure Success
-  validate (MChain (c : cs)) = do
+  validate (MChain (c:cs)) = do
     b <- validate c
     case b of
       Success -> validate $ MChain cs

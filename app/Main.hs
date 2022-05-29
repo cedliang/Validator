@@ -1,8 +1,7 @@
 module Main where
 
 import           Control.Exception (throwIO)
-import           MoidValidator
-import           Validatable
+import           Validator
 
 data TestException = Except0
                    | Except1
@@ -16,21 +15,24 @@ main = do
     Success -> print r
     Fail e  -> putStrLn $ "Fail " ++ e
 
-ioTrueMonoid :: Validator IO String
-ioTrueMonoid = Val (print "0" >> pure True) "True Monoid Exception"
+ioTrueMonoid :: MValidator IO String
+ioTrueMonoid = MVal (print "0" >> pure True) "True Monoid Exception"
 
-ioFalseMonoid :: Validator IO String
-ioFalseMonoid = Val (print "1" >> pure False) "False Monoid Exception"
+ioTrue :: Validator IO String
+ioTrue = Val (print "0" >> pure True) "True Monoid Exception"
 
-ioThrowMonoid :: Validator IO String
+ioFalseMonoid :: MValidator IO String
+ioFalseMonoid = MVal (print "1" >> pure False) "False Monoid Exception"
+
+ioThrowMonoid :: MValidator IO String
 ioThrowMonoid =
-  Val (throwIO $ userError "test") "Non-Terminating Monoid Exception"
+  MVal (throwIO $ userError "test") "Non-Terminating Monoid Exception"
 
-vGroup1 :: Validator IO String
-vGroup1 = ValGroup "vGroup1\n" (vGroup2 <> ioFalseMonoid <> ioTrueMonoid)
+vGroup1 :: MValidator IO String
+vGroup1 = MGroup "vGroup1\n" (vGroup2 <> ioFalseMonoid <> ioTrueMonoid)
 
-vGroup2 :: Validator IO String
-vGroup2 = ValGroup
+vGroup2 :: MValidator IO String
+vGroup2 = MGroup
   "vGroup2\n"
   (vall
      " Test message"

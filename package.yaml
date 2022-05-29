@@ -1,38 +1,38 @@
-name:                validator
-version:             0.1.0.2
-github:              "cedliang/Validator"
-license:             BSD3
-author:              "Cedric Liang"
-maintainer:          "ceric@cedric.app"
-copyright:           "2022 Cedric Liang"
+name: validator
+version: 0.1.0.2
+github: "cedliang/Validator"
+license: BSD3
+author: "Cedric Liang"
+maintainer: "ceric@cedric.app"
+copyright: "2022 Cedric Liang"
 
 extra-source-files:
-- README.md
-- ChangeLog.md
+  - README.md
+  - ChangeLog.md
 
-synopsis:            Sequential validators on monadic actions that support early termination.
-category:            Validation
+synopsis: Sequential validators on monadic actions that support early termination.
+category: Validation
 
-description:         Please see the README on GitHub at <https://github.com/githubuser/Validator#readme>
+description: Please see the README on GitHub at <https://github.com/githubuser/Validator#readme>
 
 dependencies:
-- base >= 4.7 && < 5
-- exceptions
+  - base >= 4.7 && < 5
+  - exceptions
 
 library:
   source-dirs: src
   verbatim:
     default-language: GHC2021
-    
+
 executables:
   validator-exe:
-    main:                Main.hs
-    source-dirs:         app
+    main: Main.hs
+    source-dirs: app
     ghc-options:
-    - -threaded
-    - -rtsopts
-    - -with-rtsopts=-N
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
     dependencies:
-    - validator
+      - validator
     verbatim:
       default-language: GHC2021

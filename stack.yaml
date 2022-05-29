@@ -1,6 +1,6 @@
 resolver: nightly-2022-04-28
 packages:
-- .
+  - .
 
 ghc-options:
-    "$everything": -j
+  "$everything": -j

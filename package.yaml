@@ -3,7 +3,7 @@ version: 0.1.0.2
 github: "cedliang/Validator"
 license: BSD3
 author: "Cedric Liang"
-maintainer: "ceric@cedric.app"
+maintainer: "cedric@cedric.app"
 copyright: "2022 Cedric Liang"
 
 extra-source-files:

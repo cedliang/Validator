@@ -1,22 +1,18 @@
-name:                Validator
+name:                validator
 version:             0.1.0.0
-github:              "githubuser/Validator"
+github:              "cedliang/Validator"
 license:             BSD3
-author:              "Author name here"
-maintainer:          "example@example.com"
-copyright:           "2022 Author name here"
+author:              "Cedric Liang"
+maintainer:          "ceric@cedric.app"
+copyright:           "2022 Cedric Liang"
 
 extra-source-files:
 - README.md
 - ChangeLog.md
 
-# Metadata used when publishing your package
-# synopsis:            Short description of your package
-# category:            Web
+synopsis:            Sequential validators on monadic actions that support early termination.
+category:            Validation
 
-# To avoid duplicated efforts in documentation and dealing with the
-# complications of embedding Haddock markup inside cabal files, it is
-# common to point users to the README.md file.
 description:         Please see the README on GitHub at <https://github.com/githubuser/Validator#readme>
 
 dependencies:
@@ -27,7 +23,7 @@ library:
   source-dirs: src
 
 executables:
-  Validator-exe:
+  validator-exe:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
@@ -35,5 +31,5 @@ executables:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - Validator
+    - validator
 

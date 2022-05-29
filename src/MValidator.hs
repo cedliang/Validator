@@ -41,4 +41,4 @@ instance (Monoid e, MonadCatch m) => Validatable MValidator m e where
       Success -> pure Success
       Fail ie -> pure $ Fail $ e <> ie
 
-  vall e conds = mconcat $ map (`MVal` e) conds
+  veach ls = mconcat $ map (uncurry MVal) ls

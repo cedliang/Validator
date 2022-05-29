@@ -20,11 +20,12 @@ module Validator
     , Validatable
     , Result(..)
     , validate
-    , vall) where
+    , vall
+    , veach) where
 
 import           Control.Monad.Catch (MonadCatch, SomeException, try)
 import           MValidator (MValidator(MGroup, MVal))
-import           Validatable (Result(..), Validatable, validate, vall)
+import           Validatable (Result(..), Validatable, validate, vall, veach)
 
 -- | Basic sequential validator consisting of monadic computations that return Boolean.
 --   Validators are monoids and can be composed. 
@@ -57,4 +58,4 @@ instance (MonadCatch m) => Validatable Validator m e where
       Success -> validate $ Chain cs
       f       -> pure f
 
-  vall e conds = mconcat $ map (`Val` e) conds
+  veach ls = mconcat $ map (uncurry Val) ls

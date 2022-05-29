@@ -21,7 +21,9 @@ dependencies:
 
 library:
   source-dirs: src
-
+  verbatim:
+    default-language: GHC2021
+    
 executables:
   validator-exe:
     main:                Main.hs
@@ -32,4 +34,5 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - validator
-
+    verbatim:
+      default-language: GHC2021
